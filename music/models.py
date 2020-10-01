@@ -10,17 +10,19 @@ import eyeD3
 class Song(models.Model):
     file = models.FileField(_('File'), upload_to=get_file_upload_path)
     file_size = models.IntegerField(_('File size'),editable=False)
-    duration = models.IntegerField(_('Song duration in seconds'),editable=False,default=0)
-
-    title = models.CharField(_('Title'), max_length=100)
-    artist = models.CharField(_('Artist'), max_length=100, blank=True)
-    album = models.CharField(_('Album name'), max_length=100, blank=True)
-    track_number = models.SmallIntegerField(_('Track number'), blank=True, null=True)
-    track_total = models.SmallIntegerField(_('Total track count'), blank=True, null=True)
     genre = models.CharField(_('Genre'), max_length=50, blank=True)
     disc_number = models.SmallIntegerField(_('Disc number'), blank=True, null=True)
     disc_total = models.SmallIntegerField(_('Total disc count'), blank=True, null=True)
     year = models.CharField(_('Year'), max_length=4, blank=True)
+    duration = models.IntegerField(_('Song duration in seconds'),editable=False,default=0)
+
+    album = models.CharField(_('Album name'), max_length=100, blank=True)
+    track_number = models.SmallIntegerField(_('Track number'), blank=True, null=True)
+    track_total = models.SmallIntegerField(_('Total track count'), blank=True, null=True)
+    title = models.CharField(_('Title'), max_length=100)
+    artist = models.CharField(_('Artist'), max_length=100, blank=True)
+    
+    
     publisher = models.CharField(_('Publisher'), max_length=100, blank=True)
     cover_image = models.ImageField(_('Cover image'), upload_to=get_cover_upload_path, blank=True)
 
@@ -51,9 +53,10 @@ class Song(models.Model):
         return "%s" % self.title
 
 class Lyric(models.Model):
-    song = models.ForeignKey(Song)
     language = models.CharField(_('language'), max_length=5, choices=settings.LANGUAGES)
     content = models.TextField(_('Lyrics'))
+    song = models.ForeignKey(Song)
+    
 
     def __unicode__(self):
         return _("%s Lyrics") % self.song.title
